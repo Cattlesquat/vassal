@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 
 import VASSAL.build.Configurable;
 import VASSAL.build.module.documentation.HelpWindow;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 
 /**
  * Action to open the Translation Window for a component

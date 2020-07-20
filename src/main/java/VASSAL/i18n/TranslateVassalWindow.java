@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
 import VASSAL.Info;
 import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.module.documentation.HelpWindow;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.ShowHelpAction;
 import VASSAL.tools.ReadErrorDialog;
 import VASSAL.tools.WriteErrorDialog;

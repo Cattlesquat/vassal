@@ -28,6 +28,7 @@ import javax.swing.AbstractAction;
 
 import VASSAL.build.Configurable;
 import VASSAL.build.module.documentation.HelpWindow;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.i18n.Resources;
 
 /**

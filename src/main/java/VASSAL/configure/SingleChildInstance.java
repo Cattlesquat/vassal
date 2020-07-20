@@ -19,6 +19,7 @@ package VASSAL.configure;
 
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
+import VASSAL.configure.configuretree.ConfigureTree;
 
 /**
  * Ensures that at most a single instance of a given type

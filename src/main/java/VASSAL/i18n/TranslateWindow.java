@@ -67,7 +67,7 @@ import VASSAL.build.Configurable;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.module.documentation.HelpWindow;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.PropertiesWindow;
 import VASSAL.configure.ShowHelpAction;
 import VASSAL.tools.WriteErrorDialog;
@@ -105,7 +105,7 @@ public class TranslateWindow extends JDialog implements ListSelectionListener,
   }
 
   protected void initComponents() {
-    setTitle("Translate " + VASSAL.configure.ConfigureTree.getConfigureName((Configurable) target));
+    setTitle("Translate " + ConfigureTree.getConfigureName((Configurable) target));
     JPanel mainPanel = new JPanel(new BorderLayout());
     /*
      * Place Language selector above Tree and Keys

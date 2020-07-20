@@ -43,7 +43,7 @@ import org.apache.commons.lang3.SystemUtils;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.Documentation;
 import VASSAL.build.module.documentation.HelpWindow;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.ModuleUpdaterDialog;
 import VASSAL.configure.SaveAction;
 import VASSAL.configure.SaveAsAction;

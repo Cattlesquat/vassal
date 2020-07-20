@@ -51,6 +51,7 @@ import VASSAL.build.module.map.boardPicker.Board;
 import VASSAL.build.module.map.boardPicker.board.ZonedGrid;
 import VASSAL.build.module.properties.GlobalProperties;
 import VASSAL.build.module.properties.PropertyNameSource;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.counters.Decorator;
 import VASSAL.counters.EditablePiece;
 import VASSAL.counters.GamePiece;

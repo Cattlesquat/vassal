@@ -105,7 +105,6 @@ import VASSAL.tools.WriteErrorDialog;
 import VASSAL.tools.filechooser.FileChooser;
 import VASSAL.tools.image.ImageTileSource;
 import VASSAL.tools.image.tilecache.ImageTileDiskCache;
-import VASSAL.tools.io.IOUtils;
 
 /**
  * The GameModule class is the base class for a VASSAL module.  It is
@@ -218,14 +217,12 @@ public abstract class GameModule extends AbstractConfigurable implements Command
       }
     });
 
-    addKeyStrokeSource
-        (new KeyStrokeSource
-            (frame.getRootPane(),
-             JComponent.WHEN_IN_FOCUSED_WINDOW));
+    addKeyStrokeSource(
+      new KeyStrokeSource(frame.getRootPane(), JComponent.WHEN_IN_FOCUSED_WINDOW));
 
-    validator = new CompoundValidityChecker
-        (new MandatoryComponent(this, Documentation.class),
-         new MandatoryComponent(this, GlobalOptions.class));
+    validator = new CompoundValidityChecker(
+      new MandatoryComponent(this, Documentation.class),
+      new MandatoryComponent(this, GlobalOptions.class));
 
     addCommandEncoder(new ChangePropertyCommandEncoder(propsContainer));
   }
@@ -727,15 +724,22 @@ public abstract class GameModule extends AbstractConfigurable implements Command
       try {
         p = getPrefs();
         p.write();
-        p.close();
       }
       catch (IOException e) {
         WriteErrorDialog.error(e, p.getFile());
       }
       finally {
-        IOUtils.closeQuietly(p);
+        if (p != null) {
+          try {
+            p.close();
+          }
+          catch (IOException e) {
+            log.error("Error while closing module preferences", e);
+          }
+        }
       }
 
+      // TODO remove this code if it is not needed anymore
       // write and close global prefs
       // Bug 10179 - Global prefs are now written out each time a preference is changed
       // try {
@@ -904,7 +908,8 @@ public abstract class GameModule extends AbstractConfigurable implements Command
     // Put our old drag threshold back, or if it wasn't set then return it to an unset state.
     if (oldDragThreshold != null) {
       System.setProperty("awt.dnd.drag.threshold", oldDragThreshold);      
-    } else {
+    }
+    else {
       System.clearProperty("awt.dnd.drag.threshold");            
     }
     

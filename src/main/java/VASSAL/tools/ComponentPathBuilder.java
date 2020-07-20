@@ -108,7 +108,7 @@ public class ComponentPathBuilder {
       }
       else if (!partialMatches.isEmpty()) {
         if (!st.hasMoreTokens()) {
-           path.add(partialMatches.get(0));
+          path.add(partialMatches.get(0));
         }
         else {
           ArrayList<Configurable> subPath = null;

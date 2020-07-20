@@ -341,17 +341,17 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
     }
     else if (e.isOnKeyRelease()) {
       switch (e.getKeyCode()) {
-        case KeyEvent.VK_ENTER:
-          if (input.getText().length() > 0)
-            send(formatChat(input.getText()));
-          input.setText(""); //$NON-NLS-1$
-          break;
-        case KeyEvent.VK_BACK_SPACE:
-        case KeyEvent.VK_DELETE:
-          String s = input.getText();
-          if (s.length() > 0)
-            input.setText(s.substring(0, s.length() - 1));
-          break;
+      case KeyEvent.VK_ENTER:
+        if (input.getText().length() > 0)
+          send(formatChat(input.getText()));
+        input.setText(""); //$NON-NLS-1$
+        break;
+      case KeyEvent.VK_BACK_SPACE:
+      case KeyEvent.VK_DELETE:
+        String s = input.getText();
+        if (s.length() > 0)
+          input.setText(s.substring(0, s.length() - 1));
+        break;
       }
     }
   }
@@ -375,7 +375,7 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
     }
   }
 
-  private int drawColoredText(Graphics g, int x, int y, TabExpander ex, Document doc,
+  private float drawColoredText(Graphics g, float x, float y, TabExpander ex, Document doc,
                               int p0, int p1, Element elem) throws BadLocationException {
     final Segment s = new Segment();
     doc.getText(p0, p1 - p0, s);
@@ -383,7 +383,7 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
 
     final Graphics2D g2d = (Graphics2D) g;
     g2d.addRenderingHints(SwingUtils.FONT_HINTS);
-    return Utilities.drawTabbedText(s, x, y, g, ex, p0);
+    return Utilities.drawTabbedText(s, x, y, g2d, ex, p0);
   }
 
   private class WrappedView extends WrappedPlainView {
@@ -392,7 +392,7 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
     }
 
     @Override
-    protected int drawUnselectedText(Graphics g, int x, int y,
+    protected float drawUnselectedText(Graphics2D g, float x, float y,
                                      int p0, int p1) throws BadLocationException {
       final Element root = getElement();
       return drawColoredText(g, x, y, this, getDocument(), p0, p1, root.getElement(root.getElementIndex(p0)));
@@ -405,7 +405,7 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
     }
 
     @Override
-    protected int drawUnselectedText(Graphics g, int x, int y,
+    protected float drawUnselectedText(Graphics2D g, float x, float y,
                                      int p0, int p1) throws BadLocationException {
       Element root = getElement();
       return drawColoredText(g, x, y, this, getDocument(), p0, p1, root.getElement(root.getElementIndex(p0)));
@@ -425,20 +425,20 @@ public class Chatter extends JPanel implements CommandEncoder, Buildable {
 
       if (s.length() > 0) {
         switch (s.charAt(0)) {
-          case '*':
-            col = gameMsg;
-            break;
-          case '-':
-            col = systemMsg;
-            break;
-          default:
-            if (s.startsWith(formatChat(""))) { //$NON-NLS-1$
-              col = myChat;
-            }
-            else {
-              col = otherChat;
-            }
-            break;
+        case '*':
+          col = gameMsg;
+          break;
+        case '-':
+          col = systemMsg;
+          break;
+        default:
+          if (s.startsWith(formatChat(""))) { //$NON-NLS-1$
+            col = myChat;
+          }
+          else {
+            col = otherChat;
+          }
+          break;
         }
       }
     }

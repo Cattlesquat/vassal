@@ -129,7 +129,7 @@ public class PropertiesWindow extends JDialog {
     addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent we) {
-         cancel();
+        cancel();
       }
     });
   }

@@ -64,7 +64,7 @@ import VASSAL.build.module.documentation.HelpFile;
 import VASSAL.build.widget.CardSlot;
 import VASSAL.build.widget.PieceSlot;
 import VASSAL.configure.BooleanConfigurer;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.DirectoryConfigurer;
 import VASSAL.configure.StringConfigurer;
 import VASSAL.configure.StringEnumConfigurer;

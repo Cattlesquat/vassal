@@ -17,7 +17,7 @@
 
 package VASSAL.build;
 
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.counters.Decorator;
 import VASSAL.counters.EditablePiece;
 

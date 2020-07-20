@@ -19,6 +19,7 @@ package VASSAL.configure;
 
 import VASSAL.build.AbstractConfigurable;
 import VASSAL.build.Buildable;
+import VASSAL.configure.configuretree.ConfigureTree;
 
 /**
  * Requires that at least one child of a given type

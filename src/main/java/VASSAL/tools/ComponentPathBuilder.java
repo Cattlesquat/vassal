@@ -22,6 +22,7 @@ import java.util.List;
 
 import VASSAL.build.Configurable;
 import VASSAL.build.GameModule;
+import VASSAL.configure.configuretree.ConfigureTree;
 
 /**
  * Provides an XPath-like syntax for identifying configuration components
@@ -146,7 +147,7 @@ public class ComponentPathBuilder {
       msgName = className.substring(className.lastIndexOf('.') + 1);
     }
     throw new PathFormatException("Could not find " + msgName + " in " +
-      VASSAL.configure.ConfigureTree.getConfigureName(parent.getClass()));
+      ConfigureTree.getConfigureName(parent.getClass()));
   }
 
   public static class PathFormatException extends Exception {

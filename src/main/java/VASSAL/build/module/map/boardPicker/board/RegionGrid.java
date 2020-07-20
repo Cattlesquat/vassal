@@ -84,7 +84,7 @@ import VASSAL.build.module.documentation.HelpWindow;
 import VASSAL.build.module.map.boardPicker.Board;
 import VASSAL.build.module.map.boardPicker.board.mapgrid.GridContainer;
 import VASSAL.build.module.map.boardPicker.board.mapgrid.GridNumbering;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.Configurer;
 import VASSAL.configure.EditPropertiesAction;
 import VASSAL.configure.PropertiesWindow;

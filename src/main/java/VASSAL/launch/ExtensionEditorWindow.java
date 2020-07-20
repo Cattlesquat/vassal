@@ -22,7 +22,7 @@ import javax.swing.JDialog;
 
 import VASSAL.build.GameModule;
 import VASSAL.build.module.ModuleExtension;
-import VASSAL.configure.ExtensionTree;
+import VASSAL.configure.configuretree.ExtensionTree;
 import VASSAL.tools.WriteErrorDialog;
 import VASSAL.tools.menu.MenuManager;
 

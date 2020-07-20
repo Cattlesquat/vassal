@@ -22,7 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 import VASSAL.build.GameModule;
-import VASSAL.configure.ConfigureTree;
+import VASSAL.configure.configuretree.ConfigureTree;
 import VASSAL.configure.SavedGameUpdaterDialog;
 import VASSAL.i18n.Resources;
 import VASSAL.tools.menu.MenuManager;

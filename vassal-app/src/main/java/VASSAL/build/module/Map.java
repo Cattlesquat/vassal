@@ -89,6 +89,7 @@ import VASSAL.build.module.map.CounterDetailViewer;
 import VASSAL.build.module.map.DefaultPieceCollection;
 import VASSAL.build.module.map.DrawPile;
 import VASSAL.build.module.map.Drawable;
+import VASSAL.build.module.map.Flare;
 import VASSAL.build.module.map.ForwardToChatter;
 import VASSAL.build.module.map.ForwardToKeyBuffer;
 import VASSAL.build.module.map.GlobalMap;
@@ -488,9 +489,9 @@ public class Map extends AbstractConfigurable implements GameComponent, MouseLis
   @Override
   public void build(Element e) {
     ActionListener al = e1 -> {
-      if (mainWindowDock == null && launchButton.isEnabled() && theMap.getTopLevelAncestor() != null) {
-        theMap.getTopLevelAncestor().setVisible(!theMap.getTopLevelAncestor().isVisible());
-      }
+        if (mainWindowDock == null && launchButton.isEnabled() && theMap.getTopLevelAncestor() != null) {
+          theMap.getTopLevelAncestor().setVisible(!theMap.getTopLevelAncestor().isVisible());
+        }
     };
     launchButton = new LaunchButton(Resources.getString("Editor.Map.map"), TOOLTIP, BUTTON_NAME, HOTKEY, ICON, al);
     launchButton.setEnabled(false);
@@ -656,11 +657,11 @@ public class Map extends AbstractConfigurable implements GameComponent, MouseLis
       new MandatoryComponent(this, StackMetrics.class)).append(idMgr);
 
     final DragGestureListener dgl = dge -> {
-      if (dragGestureListener != null &&
-          mouseListenerStack.isEmpty() &&
-          SwingUtils.isDragTrigger(dge)) {
-        dragGestureListener.dragGestureRecognized(dge);
-      }
+        if (dragGestureListener != null &&
+            mouseListenerStack.isEmpty() &&
+            SwingUtils.isDragTrigger(dge)) {
+          dragGestureListener.dragGestureRecognized(dge);
+        }
     };
 
     DragSource.getDefaultDragSource().createDefaultDragGestureRecognizer(
@@ -2457,7 +2458,7 @@ public class Map extends AbstractConfigurable implements GameComponent, MouseLis
   public Class<?>[] getAllowableConfigureComponents() {
     return new Class<?>[]{ GlobalMap.class, LOS_Thread.class, ToolbarMenu.class, MultiActionButton.class, HidePiecesButton.class, Zoomer.class,
       CounterDetailViewer.class, HighlightLastMoved.class, LayeredPieceCollection.class, ImageSaver.class, TextSaver.class, DrawPile.class, SetupStack.class,
-      MassKeyCommand.class, MapShader.class, PieceRecenterer.class };
+      MassKeyCommand.class, MapShader.class, PieceRecenterer.class, Flare.class };
   }
 
   @Override

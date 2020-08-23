@@ -514,6 +514,7 @@ public class Map extends AbstractConfigurable implements GameComponent, MouseLis
       addChild(new KeyBufferer());
       addChild(new ImageSaver());
       addChild(new CounterDetailViewer());
+      addChild(new Flare());
       setMapName(Resources.getString("Map.main_map"));
     }
     if (getComponentsOf(GlobalProperties.class).isEmpty()) {
@@ -524,6 +525,9 @@ public class Map extends AbstractConfigurable implements GameComponent, MouseLis
     }
     if (getComponentsOf(HighlightLastMoved.class).isEmpty()) {
       addChild(new HighlightLastMoved());
+    }
+    if (getComponentsOf(Flare.class).isEmpty()) {
+      addChild(new Flare());
     }
     setup(false);
   }

@@ -24,6 +24,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Window;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -108,14 +109,9 @@ public class CounterGlobalKeyCommand extends Decorator
     description = st.nextToken("");   //NON-NLS
     globalCommand.setSelectFromDeck(st.nextInt(-1));
 
-    String typeToken = st.nextToken(GlobalCommand.GlobalCommandTarget.GAME.toString());
-    targetType = GlobalCommand.GlobalCommandTarget.GAME;
-    for (GlobalCommand.GlobalCommandTarget t : GlobalCommand.GlobalCommandTarget.values()) {
-      if (typeToken.equals(t.toString())) {
-        targetType = t;
-        break;
-      }
-    }
+    String typeToken = st.nextToken(GlobalCommand.GlobalCommandTarget.GAME.name());
+    targetType = Arrays.stream(GlobalCommand.GlobalCommandTarget.values()).filter(t -> typeToken.equals(t.name())).findFirst().orElse(GlobalCommand.GlobalCommandTarget.GAME);
+
     targetMap = Expression.createExpression(st.nextToken(""));    //NON-NLS
     targetBoard = Expression.createExpression(st.nextToken(""));  //NON-NLS
     targetZone = Expression.createExpression(st.nextToken(""));   //NON-NLS
@@ -143,7 +139,7 @@ public class CounterGlobalKeyCommand extends Decorator
       .append(rangeProperty)
       .append(description)
       .append(globalCommand.getSelectFromDeck())
-      .append(targetType.toString())
+      .append(targetType.name())
       .append(targetMap.getExpression())
       .append(targetBoard.getExpression())
       .append(targetZone.getExpression())
@@ -343,7 +339,7 @@ public class CounterGlobalKeyCommand extends Decorator
       controls.add(globalKey.getControls());
 
       targetConfig = new TranslatingStringEnumConfigurer(null, Resources.getString("Editor.GlobalKeyCommand.restrict_matches_to"), GlobalCommand.GlobalCommandTarget.getKeys(), GlobalCommand.GlobalCommandTarget.geti18nKeys());
-      targetConfig.setValue(p.targetType.toString());
+      targetConfig.setValue(p.targetType.name());
       targetConfig.addPropertyChangeListener(e -> updateVisibility());
       controls.add(targetConfig.getControls());
 
@@ -404,12 +400,12 @@ public class CounterGlobalKeyCommand extends Decorator
 
     public void updateVisibility () {
       String value = targetConfig.getValueString();
-      targetMapConfig.getControls().setVisible(!GlobalCommand.GlobalCommandTarget.GAME.toString().equals(value));
-      targetBoardConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.toString().equals(value));
-      targetZoneConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.ZONE.toString().equals(value));
-      targetRegionConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.REGION.toString().equals(value));
-      targetXConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.toString().equals(value));
-      targetYConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.toString().equals(value));
+      targetMapConfig.getControls().setVisible(!GlobalCommand.GlobalCommandTarget.GAME.name().equals(value));
+      targetBoardConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.name().equals(value));
+      targetZoneConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.ZONE.name().equals(value));
+      targetRegionConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.REGION.name().equals(value));
+      targetXConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.name().equals(value));
+      targetYConfig.getControls().setVisible(GlobalCommand.GlobalCommandTarget.XY.name().equals(value));
 
       targetPropertyConfig.getControls().setVisible(targetExactMatchConfig.getValueBoolean());
       targetValueConfig.getControls().setVisible(targetExactMatchConfig.getValueBoolean());

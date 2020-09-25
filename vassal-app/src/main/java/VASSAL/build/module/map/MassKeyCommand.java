@@ -767,5 +767,4 @@ public class MassKeyCommand extends AbstractConfigurable
   public String getComponentTypeName() {
     return getConfigureTypeName();
   }
-
 }

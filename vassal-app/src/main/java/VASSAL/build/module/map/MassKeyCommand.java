@@ -41,7 +41,6 @@ import VASSAL.build.Buildable;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.Map;
 import VASSAL.build.module.documentation.HelpFile;
-import VASSAL.build.module.gamepieceimage.StringEnumConfigurer;
 import VASSAL.build.module.properties.PropertySource;
 import VASSAL.configure.Configurer;
 import VASSAL.configure.ConfigurerFactory;
@@ -52,6 +51,7 @@ import VASSAL.configure.PlayerIdFormattedStringConfigurer;
 import VASSAL.configure.PropertyExpression;
 import VASSAL.configure.StringArrayConfigurer;
 import VASSAL.configure.StringEnum;
+import VASSAL.configure.TranslatingStringEnumConfigurer;
 import VASSAL.configure.VisibilityCondition;
 import VASSAL.counters.BooleanAndPieceFilter;
 import VASSAL.counters.Decorator;
@@ -130,7 +130,7 @@ public class MassKeyCommand extends AbstractConfigurable
 
   public MassKeyCommand() {
     ActionListener al = e -> apply();
-    launch = new LaunchButton("CTRL", TOOLTIP, BUTTON_TEXT, HOTKEY, ICON, al);
+    launch = new LaunchButton(Resources.getString("Editor.GlobalKeyCommand.button_name"), TOOLTIP, BUTTON_TEXT, HOTKEY, ICON, al);
   }
 
   @Override
@@ -362,7 +362,7 @@ public class MassKeyCommand extends AbstractConfigurable
   public static class IconConfig implements ConfigurerFactory {
     @Override
     public Configurer getConfigurer(AutoConfigurable c, String key, String name) {
-      return new IconConfigurer(key, name, "/images/keyCommand.gif");
+      return new IconConfigurer(key, name, "/images/keyCommand.gif"); //NON-NLS
     }
   }
 
@@ -374,20 +374,26 @@ public class MassKeyCommand extends AbstractConfigurable
   }
 
   public static class DeckPolicyConfig extends Configurer implements ConfigurerFactory {
-    protected static final String FIXED = "Fixed number of pieces";
-    protected static final String NONE = "No pieces";
-    protected static final String ALL = "All pieces";
+    protected static final String FIXED = "Fixed number of pieces"; //NON-NLS (really)
+    protected static final String NONE = "No pieces"; //NON-NLS (really)
+    protected static final String ALL = "All pieces"; //NON-NLS (really)
     protected IntConfigurer intConfig;
-    protected StringEnumConfigurer typeConfig;
+    protected TranslatingStringEnumConfigurer typeConfig;
     protected JLabel prompt;
     protected Box controls;
 
     public DeckPolicyConfig() {
       super(null, "");
-      typeConfig = new StringEnumConfigurer(null, "", new String[]{ALL, NONE, FIXED});
+      typeConfig = new TranslatingStringEnumConfigurer(null, "",
+        new String[]{ALL, NONE, FIXED},
+        new String[] {
+          "Editor.GlobalKeyCommand.all",
+          "Editor.GlobalKeyCommand.none",
+          "Editor.GlobalKeyCommand.fixed"
+        });
       intConfig = new IntConfigurer(null, "");
       controls = Box.createHorizontalBox();
-      prompt = new JLabel("Within a Deck, apply to:  ");
+      prompt = new JLabel(Resources.getString("Editor.GlobalKeyCommand.deck_policy"));
       controls.add(prompt);
       controls.add(typeConfig.getControls());
       controls.add(intConfig.getControls());
@@ -543,7 +549,7 @@ public class MassKeyCommand extends AbstractConfigurable
   }
 
   public static String getConfigureTypeName() {
-    return "Global Key Command";
+    return Resources.getString("Editor.GlobalKeyCommand.component_type");
   }
 
   protected LaunchButton getLaunchButton() {
@@ -556,7 +562,7 @@ public class MassKeyCommand extends AbstractConfigurable
 
   @Override
   public HelpFile getHelpFile() {
-    return HelpFile.getReferenceManualPage("Map.html", "GlobalKeyCommand");
+    return HelpFile.getReferenceManualPage("Map.html", "GlobalKeyCommand"); //NON-NLS
   }
 
   @Override

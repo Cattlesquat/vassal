@@ -173,7 +173,8 @@ public class DeckGlobalKeyCommand extends MassKeyCommand {
   public static class DeckPolicyConfig2 extends DeckPolicyConfig {
     public DeckPolicyConfig2() {
       super();
-      typeConfig.setValidValues(new String[]{ALL, FIXED});
+      //FIXME this setValidValues() idea doesn't work with TranslatingStringEnumConfigurer
+      //typeConfig.setValidValues(new String[]{ALL, FIXED});
       prompt.setText(Resources.getString("Editor.DeckGlobalKeyCommand.affects"));
     }
   }

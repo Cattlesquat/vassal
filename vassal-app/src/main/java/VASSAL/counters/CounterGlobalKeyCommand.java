@@ -212,7 +212,7 @@ public class CounterGlobalKeyCommand extends Decorator
 
   @Override
   public String getDescription() {
-    String d = "Global Key Command";
+    String d = Resources.getString("Editor.GlobalKeyCommand.component_type");
     if (description.length() > 0) {
       d += " - " + description;
     }

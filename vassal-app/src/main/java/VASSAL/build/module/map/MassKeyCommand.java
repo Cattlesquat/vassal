@@ -73,25 +73,25 @@ import VASSAL.tools.ToolBarComponent;
  */
 public class MassKeyCommand extends AbstractConfigurable
                             implements RecursionLimiter.Loopable {
-  public static final String DEPRECATED_NAME = "text";
-  public static final String NAME = "name";
-  public static final String ICON = "icon";
-  public static final String TOOLTIP = "tooltip";
-  public static final String BUTTON_TEXT = "buttonText";
-  public static final String HOTKEY = "buttonHotkey";
-  public static final String KEY_COMMAND = "hotkey";
-  public static final String AFFECTED_PIECE_NAMES = "names";
-  public static final String PROPERTIES_FILTER = "filter";
-  public static final String REPORT_SINGLE = "reportSingle";
-  public static final String REPORT_FORMAT = "reportFormat";
-  public static final String CONDITION = "condition";
-  public static final String DECK_COUNT = "deckCount";
-  private static final String IF_ACTIVE = "If layer is active";
-  private static final String IF_INACTIVE = "If layer is inactive";
-  private static final String ALWAYS = "Always";
-  public static final String CHECK_PROPERTY = "property";
-  public static final String CHECK_VALUE = "propValue";
-  public static final String SINGLE_MAP = "singleMap";
+  public static final String DEPRECATED_NAME = "text"; //NON-NLS
+  public static final String NAME = "name"; //NON-NLS
+  public static final String ICON = "icon"; //NON-NLS
+  public static final String TOOLTIP = "tooltip"; //NON-NLS
+  public static final String BUTTON_TEXT = "buttonText"; //NON-NLS
+  public static final String HOTKEY = "buttonHotkey"; //NON-NLS
+  public static final String KEY_COMMAND = "hotkey"; //NON-NLS
+  public static final String AFFECTED_PIECE_NAMES = "names"; //NON-NLS
+  public static final String PROPERTIES_FILTER = "filter"; //NON-NLS
+  public static final String REPORT_SINGLE = "reportSingle"; //NON-NLS
+  public static final String REPORT_FORMAT = "reportFormat"; //NON-NLS
+  public static final String CONDITION = "condition"; //NON-NLS
+  public static final String DECK_COUNT = "deckCount"; //NON-NLS
+  private static final String IF_ACTIVE = "If layer is active"; //NON-NLS
+  private static final String IF_INACTIVE = "If layer is inactive"; //NON-NLS
+  private static final String ALWAYS = "Always"; //NON-NLS
+  public static final String CHECK_PROPERTY = "property"; //NON-NLS
+  public static final String CHECK_VALUE = "propValue"; //NON-NLS
+  public static final String SINGLE_MAP = "singleMap"; //NON-NLS
   protected LaunchButton launch;
   protected NamedKeyStroke stroke = new NamedKeyStroke();
   protected String[] names = new String[0];
@@ -106,16 +106,16 @@ public class MassKeyCommand extends AbstractConfigurable
   protected FormattedString reportFormat = new FormattedString();
   protected boolean singleMap = true;
 
-  public static final String TARGET_TYPE   = "targetType";
-  public static final String TARGET_MAP    = "targetMap";
-  public static final String TARGET_BOARD  = "targetBoard";
-  public static final String TARGET_ZONE   = "targetZone";
-  public static final String TARGET_REGION = "targetRegion";
-  public static final String TARGET_X      = "targetX";
-  public static final String TARGET_Y      = "targetY";
-  public static final String TARGET_EXACT_MATCH = "targetExactMatch";
-  public static final String TARGET_PROPERTY    = "targetProperty";
-  public static final String TARGET_VALUE       = "targetValue";
+  public static final String TARGET_TYPE   = "targetType"; //NON-NLS
+  public static final String TARGET_MAP    = "targetMap"; //NON-NLS
+  public static final String TARGET_BOARD  = "targetBoard"; //NON-NLS
+  public static final String TARGET_ZONE   = "targetZone"; //NON-NLS
+  public static final String TARGET_REGION = "targetRegion"; //NON-NLS
+  public static final String TARGET_X      = "targetX"; //NON-NLS
+  public static final String TARGET_Y      = "targetY"; //NON-NLS
+  public static final String TARGET_EXACT_MATCH = "targetExactMatch"; //NON-NLS
+  public static final String TARGET_PROPERTY    = "targetProperty"; //NON-NLS
+  public static final String TARGET_VALUE       = "targetValue"; //NON-NLS
 
   protected GlobalCommand.GlobalCommandTarget targetType = GlobalCommand.GlobalCommandTarget.GAME;
   protected Expression targetMap = Expression.createExpression("");
@@ -392,11 +392,11 @@ public class MassKeyCommand extends AbstractConfigurable
       controls.add(typeConfig.getControls());
       controls.add(intConfig.getControls());
       PropertyChangeListener l = evt -> {
-          intConfig.getControls().setVisible(FIXED.equals(typeConfig.getValueString()));
-          Window w = SwingUtilities.getWindowAncestor(intConfig.getControls());
-          if (w != null) {
-            w.pack();
-          }
+        intConfig.getControls().setVisible(FIXED.equals(typeConfig.getValueString()));
+        Window w = SwingUtilities.getWindowAncestor(intConfig.getControls());
+        if (w != null) {
+          w.pack();
+        }
       };
       PropertyChangeListener l2 = evt -> setValue(getIntValue());
       typeConfig.addPropertyChangeListener(l);
@@ -580,17 +580,17 @@ public class MassKeyCommand extends AbstractConfigurable
     }
     if (filter != null && condition != null) {
       filter = new BooleanAndPieceFilter(filter, piece -> {
-          boolean valid = false;
-          if (ALWAYS.equals(condition)) {
-            valid = true;
-          }
-          else if (IF_ACTIVE.equals(condition)) {
-            valid = Embellishment.getLayerWithMatchingActivateCommand(piece, stroke, true) != null;
-          }
-          else if (IF_INACTIVE.equals(condition)) {
-            valid = Embellishment.getLayerWithMatchingActivateCommand(piece, stroke, false) != null;
-          }
-          return valid;
+        boolean valid = false;
+        if (ALWAYS.equals(condition)) {
+          valid = true;
+        }
+        else if (IF_ACTIVE.equals(condition)) {
+          valid = Embellishment.getLayerWithMatchingActivateCommand(piece, stroke, true) != null;
+        }
+        else if (IF_INACTIVE.equals(condition)) {
+          valid = Embellishment.getLayerWithMatchingActivateCommand(piece, stroke, false) != null;
+        }
+        return valid;
       });
     }
   }
@@ -602,7 +602,7 @@ public class MassKeyCommand extends AbstractConfigurable
     }
     else if (TARGET_ZONE.equals(key)) {
       return () -> (targetType == GlobalCommand.GlobalCommandTarget.ZONE) && (condition == null);
-        }
+    }
     else if (TARGET_REGION.equals(key)) {
       return () -> (targetType == GlobalCommand.GlobalCommandTarget.REGION) && (condition == null);
     }
@@ -649,12 +649,12 @@ public class MassKeyCommand extends AbstractConfigurable
       }
       else {
         filter = piece -> {
-            for (String s : names) {
-              if (Decorator.getInnermost(piece).getName().equals(s)) {
-                return true;
-              }
+          for (String s : names) {
+            if (Decorator.getInnermost(piece).getName().equals(s)) {
+              return true;
             }
-            return false;
+          }
+          return false;
         };
       }
     }

@@ -227,7 +227,7 @@
     </difference>
 
     <difference>
-      <className>VASSAL.build.module.map.MassKeyCommand$DeckPolicyConfig</className>
+      <className>VASSAL.build.module.map.MassKeyCommand</className>
       <differenceType>6004</differenceType>
       <field>typeConfig</field>
       <justification>Needed for localization</justification>

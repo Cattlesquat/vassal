@@ -18,6 +18,7 @@
 
 package VASSAL.counters;
 
+import VASSAL.configure.GlobalCommandTargetConfigurer;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -69,6 +70,7 @@ public class CounterGlobalKeyCommand extends Decorator
   protected String rangeProperty = "";
   private KeyCommand myCommand;
   protected String description;
+  protected GlobalCommandTarget target = new GlobalCommandTarget(true);
 
   public CounterGlobalKeyCommand() {
     this(ID, null);
@@ -95,6 +97,8 @@ public class CounterGlobalKeyCommand extends Decorator
     rangeProperty = st.nextToken("");
     description = st.nextToken("");
     globalCommand.setSelectFromDeck(st.nextInt(-1));
+    target.decode(st.nextToken(""));
+    target.setCounterGkc(true);
     command = null;
   }
 
@@ -111,7 +115,8 @@ public class CounterGlobalKeyCommand extends Decorator
       .append(fixedRange)
       .append(rangeProperty)
       .append(description)
-      .append(globalCommand.getSelectFromDeck());
+      .append(globalCommand.getSelectFromDeck())
+      .append(target.encode());
     return ID + se.getValue();
   }
 
@@ -230,6 +235,7 @@ public class CounterGlobalKeyCommand extends Decorator
     if (! Objects.equals(fixedRange, trait.fixedRange)) return false;
     if (! Objects.equals(rangeProperty, trait.rangeProperty)) return false;
     if (! Objects.equals(description, trait.description)) return false;
+    if (! Objects.equals(target, trait.target)) return false;
     return Objects.equals(globalCommand.getSelectFromDeck(), trait.globalCommand.getSelectFromDeck());
   }
   
@@ -249,6 +255,7 @@ public class CounterGlobalKeyCommand extends Decorator
     protected JLabel rangePropertyLabel;
     protected StringConfigurer descInput;
     protected JPanel controls;
+    protected GlobalCommandTargetConfigurer targetConfig;
 
     public Ed(CounterGlobalKeyCommand p) {
 
@@ -323,6 +330,10 @@ public class CounterGlobalKeyCommand extends Decorator
       controls.add(new JLabel(Resources.getString("Editor.GlobalKeyCommand.Editor_MassKey_suppress")));
       controls.add(suppress.getControls());
 
+      targetConfig = new GlobalCommandTargetConfigurer(p.target);
+      controls.add(new JLabel("Pre-select targets"), "pad 1,aligny top");
+      controls.add(targetConfig.getControls(), "growx");
+
       pl.propertyChange(null);
     }
 
@@ -344,7 +355,8 @@ public class CounterGlobalKeyCommand extends Decorator
         .append(fixedRange.booleanValue())
         .append(rangeProperty.getValueString())
         .append(descInput.getValueString())
-        .append(deckPolicy.getIntValue());
+        .append(deckPolicy.getIntValue())
+        .append(targetConfig.getValueString());
       return ID + se.getValue();
     }
 

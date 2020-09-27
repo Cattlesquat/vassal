@@ -37,6 +37,7 @@ public class FormattedStringConfigurer
 
   private final DefaultComboBoxModel<String> optionsModel;
   private JComboBox<String> dropList;
+  private boolean non$mode = false;
 
   public FormattedStringConfigurer(String key, String name) {
     this(key, name, new String[0]);
@@ -49,6 +50,11 @@ public class FormattedStringConfigurer
     super(key, name);
     optionsModel = new DefaultComboBoxModel<>();
     setOptions(options);
+  }
+
+  public void setNon$Options(String[] options) {
+    setOptions(options);
+    non$mode = true;
   }
 
   public void setOptions(String[] options) {
@@ -102,7 +108,7 @@ public class FormattedStringConfigurer
     int selectedIndex = dropList.getSelectedIndex();
 
     if (selectedIndex > 0) {
-      item = "$" + optionsModel.getElementAt(selectedIndex) + "$";
+      item = non$mode ? optionsModel.getElementAt(selectedIndex) : "$" + optionsModel.getElementAt(selectedIndex) + "$";
       String work = nameField.getText();
 
       int pos = nameField.getCaretPosition();

@@ -26,8 +26,10 @@
 package VASSAL.build.module.map;
 
 import VASSAL.build.module.gamepieceimage.StringEnumConfigurer;
+import VASSAL.configure.GlobalCommandTargetConfigurer;
 import VASSAL.configure.TranslatableStringEnum;
 import VASSAL.configure.TranslatingStringEnumConfigurer;
+import VASSAL.counters.GlobalCommandTarget;
 import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.ActionListener;
@@ -93,6 +95,7 @@ public class MassKeyCommand extends AbstractConfigurable
   public static final String CHECK_PROPERTY = "property"; // NON-NLS
   public static final String CHECK_VALUE = "propValue"; // NON-NLS
   public static final String SINGLE_MAP = "singleMap"; // NON-NLS
+  public static final String TARGET = "target"; // NON-NLS
   protected LaunchButton launch;
   protected NamedKeyStroke stroke = new NamedKeyStroke();
   protected String[] names = new String[0];
@@ -106,6 +109,7 @@ public class MassKeyCommand extends AbstractConfigurable
   protected GlobalCommand globalCommand = new GlobalCommand(this);
   protected FormattedString reportFormat = new FormattedString();
   protected boolean singleMap = true;
+  protected GlobalCommandTarget target = new GlobalCommandTarget(false);
 
   public MassKeyCommand() {
     ActionListener al = e -> apply();
@@ -164,6 +168,7 @@ public class MassKeyCommand extends AbstractConfigurable
         Resources.getString(Resources.HOTKEY_LABEL),
         Resources.getString("Editor.MassKey.suppress"), //$NON-NLS-1$
         Resources.getString("Editor.report_format"), //$NON-NLS-1$
+        "Pre-select Targets"
       };
     }
     else {
@@ -199,6 +204,7 @@ public class MassKeyCommand extends AbstractConfigurable
       HOTKEY,
       REPORT_SINGLE,
       REPORT_FORMAT,
+      TARGET,
       CONDITION,
       CHECK_VALUE,
       CHECK_PROPERTY,
@@ -236,7 +242,8 @@ public class MassKeyCommand extends AbstractConfigurable
         IconConfig.class,
         NamedKeyStroke.class,
         Boolean.class,
-        ReportFormatConfig.class
+        ReportFormatConfig.class,
+        GkcTarget.class,
       };
     }
     else {
@@ -255,6 +262,14 @@ public class MassKeyCommand extends AbstractConfigurable
         ReportFormatConfig.class,
         Prompt.class
       };
+    }
+  }
+
+  public static class GkcTarget implements ConfigurerFactory {
+
+    @Override
+    public Configurer getConfigurer(AutoConfigurable c, String key, String name) {
+      return new GlobalCommandTargetConfigurer(key, name);
     }
   }
 
@@ -423,6 +438,9 @@ public class MassKeyCommand extends AbstractConfigurable
     else if (SINGLE_MAP.equals(key)) {
       return String.valueOf(singleMap);
     }
+    else if (TARGET.equals(key)) {
+      return target.encode();
+    }
     else {
       return launch.getAttributeValueString(key);
     }
@@ -552,6 +570,14 @@ public class MassKeyCommand extends AbstractConfigurable
         value = Boolean.valueOf((String) value);
       }
       singleMap = ((Boolean) value);
+    }
+    else if (TARGET.equals(key)) {
+      if (value instanceof String) {
+        target.decode((String) value);
+      }
+      else {
+        target = (GlobalCommandTarget) value;
+      }
     }
     else {
       launch.setAttribute(key, value);

@@ -323,10 +323,10 @@ public class GlobalCommand {
   }
 
   protected class Visitor implements DeckVisitor {
-    private Command command;
-    private BoundsTracker tracker;
-    private PieceFilter filter;
-    private KeyStroke stroke;
+    private final Command command;
+    private final BoundsTracker tracker;
+    private final PieceFilter filter;
+    private final KeyStroke stroke;
     private int selectedCount;
 
     public Visitor(Command command, PieceFilter filter, KeyStroke stroke) {

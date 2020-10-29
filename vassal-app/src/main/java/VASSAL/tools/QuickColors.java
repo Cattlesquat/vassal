@@ -27,7 +27,25 @@ public class QuickColors {
   public static final String QUICK_COLOR_CODES = "|!?~`"; // Our quick color code characters
   public static final int QUICK_COLOR_NONE = -1; // If no code
 
-  public static final String[] QUICK_COLOR_REGEX = { "\\|", "!", "\\?", "~", "`" }; // Regex searchers for each of our codes
+  // These are descriptive of the default color settings - user can change them however.
+  public static final String QUICK_COLOR_BLACK  = "\\|";
+  public static final String QUICK_COLOR_GREEN  = "!";
+  public static final String QUICK_COLOR_ORANGE = "\\?";
+  public static final String QUICK_COLOR_RED    = "~";
+  public static final String QUICK_COLOR_PURPLE = "`";
+
+  public static final String HTML_BOLD       = "<b>";  //NON-NLS
+  public static final String HTML_BOLD_OFF   = "</b>"; //NON-NLS
+  public static final String HTML_ITALIC     = "<i>";  //NON-NLS
+  public static final String HTML_ITALIC_OFF = "</i>"; //NON-NLS
+
+  public static final String[] QUICK_COLOR_REGEX = { // Regex searchers for each of our codes
+    QUICK_COLOR_BLACK,
+    QUICK_COLOR_GREEN,
+    QUICK_COLOR_ORANGE,
+    QUICK_COLOR_RED,
+    QUICK_COLOR_PURPLE
+  };
 
   /**
    * Checks if a character is a Quick Color code

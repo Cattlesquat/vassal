@@ -1,5 +1,4 @@
 /*
- *
  * Copyright (c) 2000-2003 by Rodney Kinney
  *
  * This library is free software; you can redistribute it and/or
@@ -18,7 +17,6 @@
 package VASSAL.build.module;
 
 import VASSAL.tools.ProblemDialog;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.io.BufferedInputStream;
@@ -50,7 +48,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import javax.swing.SwingUtilities;
 
+import org.apache.commons.io.IOUtils;
+
 import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.LoggerFactory;
 
 import VASSAL.Info;
@@ -70,7 +71,6 @@ import VASSAL.configure.DirectoryConfigurer;
 import VASSAL.counters.GamePiece;
 import VASSAL.i18n.Resources;
 import VASSAL.launch.Launcher;
-import VASSAL.tools.ComponentSplitter;
 import VASSAL.tools.ErrorDialog;
 import VASSAL.tools.ReadErrorDialog;
 import VASSAL.tools.ThrowableUtils;
@@ -80,7 +80,6 @@ import VASSAL.tools.filechooser.FileChooser;
 import VASSAL.tools.filechooser.LogAndSaveFileFilter;
 import VASSAL.tools.io.DeobfuscatingInputStream;
 import VASSAL.tools.io.FileArchive;
-import VASSAL.tools.io.IOUtils;
 import VASSAL.tools.io.ObfuscatingOutputStream;
 import VASSAL.tools.io.ZipArchive;
 import VASSAL.tools.menu.MenuManager;
@@ -353,8 +352,6 @@ public class GameState implements CommandEncoder {
     lastSaveFile = null;
 
     if (gameStarted) {
-      adjustSplitter();
-
       if (gameStarting) {
         SwingUtilities.invokeLater(() -> {
           final Logger logger = GameModule.getGameModule().getLogger();
@@ -362,26 +359,6 @@ public class GameState implements CommandEncoder {
             ((BasicLogger)logger).queryNewLogFile(true);
           }
         });
-      }
-    }
-  }
-
-  private void adjustSplitter() {
-    // If there is a docked map, set the splitter to a reasonable location
-    final GameModule g = GameModule.getGameModule();
-    for (final VASSAL.build.module.Map m : g.getComponentsOf(VASSAL.build.module.Map.class)) {
-      if (m.shouldDockIntoMainWindow()) {
-        final Component c = SwingUtilities.getAncestorOfClass(
-          ComponentSplitter.SplitPane.class, m.getView()
-        );
-
-        // this should always be true
-        if (c instanceof ComponentSplitter.SplitPane) {
-          final ComponentSplitter.SplitPane sp = (ComponentSplitter.SplitPane) c;
-
-          SwingUtilities.invokeLater(() -> sp.setDividerLocation(g.getChatter().getPreferredSize().height));
-        }
-        return;
       }
     }
   }

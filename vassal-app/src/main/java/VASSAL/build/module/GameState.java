@@ -136,7 +136,7 @@ public class GameState implements CommandEncoder {
           JOptionPane.INFORMATION_MESSAGE,
           GameModule.getGameModule().getPlayerWindow(),
           null,
-          Resources.getString("GameState.old_continuation_title",
+          Resources.getString("GameState.old_continuation_title"),
           Resources.getString("GameState.old_continuation_heading"),
           Resources.getString("GameState.old_continuation_warning")
         );

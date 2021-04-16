@@ -45,6 +45,10 @@ public class KeyCommand extends AbstractAction {
   protected TranslatablePiece i18nPiece;
   protected NamedKeyStroke namedKeyStroke;
 
+  public KeyCommand(String name, KeyStroke key) {
+    this (name, key, null);
+  }
+
   public KeyCommand(String name, KeyStroke key, GamePiece target) {
     this(name, key, target, null);
   }

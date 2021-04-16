@@ -17,6 +17,8 @@
  */
 package VASSAL.build.module.map;
 
+import VASSAL.build.module.map.deck.DeckKeyCommand;
+import VASSAL.build.module.map.deck.DeckSortCommand;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -121,6 +123,15 @@ public class DrawPile extends SetupStack implements PropertySource, PropertyName
   public void removeGlobalKeyCommand(DeckGlobalKeyCommand globalCommand) {
     dummy.removeGlobalKeyCommand(globalCommand);
   }
+
+  public void addDeckKeyCommand(DeckKeyCommand command) {
+    dummy.addDeckKeyCommand(command);
+  }
+
+  public void removeDeckKeyCommand(DeckKeyCommand command) {
+    dummy.removeDeckKeyCommand(command);
+  }
+
 
   /**
    * Return the DrawPile instance with the matching id or name
@@ -860,7 +871,7 @@ public class DrawPile extends SetupStack implements PropertySource, PropertyName
 
   @Override
   public Class<?>[] getAllowableConfigureComponents() {
-    return new Class<?>[]{CardSlot.class, DeckGlobalKeyCommand.class};
+    return new Class<?>[]{CardSlot.class, DeckGlobalKeyCommand.class, DeckSortCommand.class};
   }
 
   public Point getPosition() {
@@ -1061,6 +1072,7 @@ public class DrawPile extends SetupStack implements PropertySource, PropertyName
     super.setup(gameStarting);
     if (myDeck != null) {
       if (gameStarting) {
+        myDeck.setDeckKeyCommands(dummy.getDeckKeyCommands());
         myDeck.addListeners();
       }
       else {

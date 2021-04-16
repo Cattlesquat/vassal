@@ -17,6 +17,7 @@
  */
 package VASSAL.counters;
 
+import VASSAL.build.module.map.deck.DeckKeyCommand;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -137,6 +138,7 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
   protected List<GamePiece> nextDraw = null;
   protected KeyCommand[] commands;
   protected List<DeckGlobalKeyCommand> globalCommands = new ArrayList<>();
+  protected List<DeckKeyCommand> deckKeyCommands = new ArrayList<>();
   protected boolean hotkeyOnEmpty;
   protected NamedKeyStroke emptyKey;
   protected boolean restrictOption;
@@ -309,6 +311,22 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
     }
   }
 
+
+  public void addDeckKeyCommand(DeckKeyCommand dkc) {
+    deckKeyCommands.add(dkc);
+  }
+
+  public void removeDeckKeyCommand(DeckKeyCommand dkc) {
+    deckKeyCommands.remove(dkc);
+  }
+
+  public void setDeckKeyCommands(List<DeckKeyCommand> commands) {
+    deckKeyCommands = commands;
+  }
+
+  public List<DeckKeyCommand> getDeckKeyCommands() {
+    return deckKeyCommands;
+  }
   /**
   * Update map-level count properties for all "expressions" of pieces that are configured
   * to be counted.  These are held in the String[] countExpressions.
@@ -497,6 +515,10 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
       faceDownListener.setKeyStroke(getFaceDownKey());
     }
 
+    for (final DeckKeyCommand dkc : deckKeyCommands) {
+      dkc.addKeyStrokeListener();
+    }
+
     gameModule.addSideChangeListenerToPlayerRoster(this);
   }
 
@@ -524,6 +546,10 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
     if (faceDownListener != null) {
       gameModule.removeKeyStrokeListener(faceDownListener);
       faceDownListener = null;
+    }
+
+    for (final DeckKeyCommand dkc : deckKeyCommands) {
+      dkc.removeKeyStrokeListener();
     }
 
     gameModule.removeSideChangeListenerFromPlayerRoster(this);
@@ -796,7 +822,8 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
   }
 
   public boolean isSortable() {
-    return sortable && !ALWAYS.equals(getShuffleOption());
+    //return sortable && !ALWAYS.equals(getShuffleOption());
+    return !ALWAYS.equals(getShuffleOption());
   }
 
   public void setSortable(boolean sortable) {
@@ -1215,6 +1242,10 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
 
   private boolean anyNonNumeric = false; // It won't let me use it if I put it inside the method, and it won't let the inner class have a static. So "whatevs". Sigh.
 
+  public void sort(String sortKey, boolean sortDescending) {
+    // Re-implement sortDeck here for supplied key/descending
+  }
+
   /** Sort the contents of the Deck. Numeric sort preferred if possible */
   public Command sortDeck() {
     class AvailablePiece implements Comparable<AvailablePiece> {
@@ -1509,18 +1540,18 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
         };
         l.add(c);
       }
-      if (isSortable()) {
-        c = new KeyCommand(sortCommand, getSortKey(), this) {
-          private static final long serialVersionUID = 1L;
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            final Command c = sortDeck();
-            gameModule.sendAndLog(c);
-            repaintMap();
-          }
-        };
-        l.add(c);
-      }
+//      if (isSortable()) {
+//        c = new KeyCommand(sortCommand, getSortKey(), this) {
+//          private static final long serialVersionUID = 1L;
+//          @Override
+//          public void actionPerformed(ActionEvent e) {
+//            final Command c = sortDeck();
+//            gameModule.sendAndLog(c);
+//            repaintMap();
+//          }
+//        };
+//        l.add(c);
+//      }
       if (persistable) {
         c = new KeyCommand(Resources.getString(Resources.SAVE), NamedKeyStroke.NULL_KEYSTROKE, this) {
           private static final long serialVersionUID = 1L;
@@ -1546,6 +1577,13 @@ public class Deck extends Stack implements PlayerRoster.SideChangeListener {
 
       for (final DeckGlobalKeyCommand cmd : globalCommands) {
         l.add(cmd.getKeyCommand(this));
+      }
+
+      for (final DeckKeyCommand dkc : deckKeyCommands) {
+        final KeyCommand kc = dkc.getKeyCommand();
+        if (kc != null) {
+          l.add(kc);
+        }
       }
 
       commands = l.toArray(new KeyCommand[0]);

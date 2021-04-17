@@ -103,3 +103,4 @@ public abstract class AbstractFolder extends AbstractConfigurable {
     return Resources.getString("Editor.Folder.component_type"); //$NON-NLS-1$
   }
 }
+

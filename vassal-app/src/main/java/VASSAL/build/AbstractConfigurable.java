@@ -217,6 +217,18 @@ public abstract class AbstractConfigurable extends AbstractBuildable implements 
   }
 
   /**
+   * If this AbstractConfigurable is to be allowed to have {@link Folder} components as children, then
+   * this method returns a list of the classes that the Folders are allowed to contain. Basically members
+   * of the {@link getAllowableConfigureComponents} method which have been taught how to behave properly
+   * in a folder.
+   * @return list of subcomponents (e.g. members of the {@link getAllowableConfigureComponents} list) which subfolders
+   * of this component are allowed to contain.
+   */
+  public List<Class<?>> getAllowableFolderComponents() {
+    return Collections.emptyList();
+  }
+
+  /**
    * {@link SearchTarget}
    * @return a list of the Configurables string/expression fields if any (for search)
    */

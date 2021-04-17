@@ -18,20 +18,14 @@
 
 package VASSAL.build.module.folder;
 
-import VASSAL.build.AbstractFolder;
 import VASSAL.build.Buildable;
+import VASSAL.build.Folder;
 import VASSAL.build.module.PrototypeDefinition;
 import VASSAL.build.module.PrototypesContainer;
-import VASSAL.i18n.Resources;
 
-public class PrototypeFolder extends AbstractFolder {
-  @Override
-  public Class<?>[] getAllowableConfigureComponents() {
-    return new Class<?>[] { PrototypeDefinition.class, this.getClass()};
-  }
-
-  public static String getConfigureTypeName() {
-    return Resources.getString("Editor.Folder.component_type", PrototypeDefinition.getConfigureTypeName()); //$NON-NLS-1$
+public class PrototypeFolder extends Folder<PrototypesContainer> {
+  public PrototypeFolder(Class<PrototypesContainer> typeParameterClass) {
+    super(typeParameterClass);
   }
 
   @Override

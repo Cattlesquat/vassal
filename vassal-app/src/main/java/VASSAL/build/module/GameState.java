@@ -402,9 +402,9 @@ public class GameState implements CommandEncoder {
 
     gameStarted &= this.gameStarting;
 
-    final List<GameComponent> comps = new ArrayList<>(gameComponents);
-    for (final GameComponent gc : comps) {
-      gc.setup(this.gameStarting);
+    //BR// Need a traditional loop here instead of the "fancy for", because BoardPicker might add items to end of list.
+    for (int i = 0; i < gameComponents.size(); ++i) {
+      gameComponents.get(i).setup(this.gameStarting);
     }
 
     gameStarted |= this.gameStarting;

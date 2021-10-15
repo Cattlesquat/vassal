@@ -30,7 +30,6 @@ import VASSAL.configure.PropertyExpression;
 import VASSAL.i18n.Resources;
 import VASSAL.script.expression.AuditTrail;
 import VASSAL.script.expression.Auditable;
-import VASSAL.script.expression.Expression;
 import VASSAL.tools.ErrorDialog;
 import VASSAL.tools.FormattedString;
 import VASSAL.tools.NamedKeyStroke;
@@ -275,39 +274,30 @@ public class GlobalCommand implements Auditable {
           fastLocation = (curPiece != null) ? (String) curPiece.getProperty(BasicPiece.LOCATION_NAME) : "";
           break;
         case ZONE:
-          fastZone = target.targetZone.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.zone_name");
-          fastZone = Expression.createExpression(fastZone).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.zone_name");
+          fastZone = target.targetZone.getText(source, owner, "Editor.GlobalKeyCommand.zone_name");
           break;
         case DECK:
-          fastDeck = target.targetDeck.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.deck_name");
-          fastDeck = Expression.createExpression(fastDeck).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.deck_name");
+          fastDeck = target.targetDeck.getText(source, owner, "Editor.GlobalKeyCommand.deck_name");
           break;
         case LOCATION:
-          fastLocation = target.targetLocation.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.location_name");
-          fastLocation = Expression.createExpression(fastLocation).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.location_name");
+          fastLocation = target.targetLocation.getText(source, owner, "Editor.GlobalKeyCommand.location_name");
           break;
         case XY:
-          fastBoard = target.targetLocation.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.board_name");
-          fastBoard = Expression.createExpression(fastBoard).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.board_name");
-          fastX = target.targetX.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.x_position");
-          fastX = Expression.createExpression(fastX).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.x_position");
-          fastY = target.targetY.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.y_position");
-          fastY = Expression.createExpression(fastY).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.y_position");
+          fastBoard = target.targetLocation.getText(source, owner, "Editor.GlobalKeyCommand.board_name");
+          fastX = target.targetX.getText(source, owner, "Editor.GlobalKeyCommand.x_position");
+          fastY = target.targetY.getText(source, owner, "Editor.GlobalKeyCommand.y_position");
           break;
         }
 
         if (!target.targetType.isCurrent()) {
-          fastMap = target.targetMap.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.map_name");
-          fastMap = Expression.createExpression(fastMap).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.map_name");
+          fastMap = target.targetMap.getText(source, owner, "Editor.GlobalKeyCommand.map_name");
         }
       }
 
       // Evaluate any property-based expressions we will be using - these are evaluated w/r/t the SOURCE of the command, not target pieces.
       if (target.fastMatchProperty) {
-        fastProperty = target.targetProperty.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.property_name");
-        fastProperty = Expression.createExpression(fastProperty).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.property_name");
-        fastValue    = target.targetValue.tryEvaluate(source, owner, "Editor.GlobalKeyCommand.property_compare");
-        fastValue    = Expression.createExpression(fastValue).tryEvaluate(source, owner, "Editor.GlobalKeyCommand.property_compare");
+        fastProperty = target.targetProperty.getText(source, owner, "Editor.GlobalKeyCommand.property_name");
+        fastValue    = target.targetValue.getText(source, owner, "Editor.GlobalKeyCommand.property_compare");
         if ((target.targetCompare == GlobalCommandTarget.CompareMode.EQUALS) ||
             (target.targetCompare == GlobalCommandTarget.CompareMode.NOT_EQUALS)) {
           fastIsNumber = false;
@@ -319,7 +309,7 @@ public class GlobalCommand implements Auditable {
             fastPattern = Pattern.compile(fastValue);
           }
           catch (PatternSyntaxException ex) {
-            ErrorDialog.dataWarning(new BadDataReport("Fast Match - syntax error in regex: ", target.targetValue.getExpression()));  //NON-NLS
+            ErrorDialog.dataWarning(new BadDataReport("Fast Match - syntax error in regex: ", target.targetValue.getFormat()));  //NON-NLS
             fastPattern = Pattern.compile("bAdMoDuLeDaTa"); //NON-NLS // Give it "something" so it won't throw more exceptions later.
           }
           fastIsNumber = false;

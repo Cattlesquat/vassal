@@ -33,6 +33,7 @@ import java.util.List;
 import VASSAL.build.BadDataReport;
 import VASSAL.build.GameModule;
 import VASSAL.build.module.GameState;
+import VASSAL.build.module.GlobalOptions;
 import VASSAL.build.module.Map;
 import VASSAL.build.module.map.CompoundPieceCollection;
 import VASSAL.build.module.map.PieceCollection;
@@ -66,6 +67,7 @@ import VASSAL.search.ImageSearchTarget;
 public class Stack extends AbstractImageFinder implements GamePiece, StateMergeable {
   public static final String TYPE = "stack"; //$NON-NLS-1$//
   public static final String HAS_LAYER_MARKER = "@@"; // Horrific encoding hack necessitated by equally horrific legacy encoder
+  public static final String HAS_EXPANDED_MARKER = "@*@"; // Horrific encoding hack necessitated by equally horrific legacy encoder
   public static final int LAYER_NOT_SET = -1; // Brand new stacks with no pieces do not yet know their visual layer
   protected static final int INCR = 5;
 
@@ -571,6 +573,7 @@ public class Stack extends AbstractImageFinder implements GamePiece, StateMergea
       se.append(contents[i].getId());
     }
     se.append(HAS_LAYER_MARKER + layer);
+    se.append(HAS_EXPANDED_MARKER + expanded);
     return se.getValue();
   }
 
@@ -602,6 +605,9 @@ public class Stack extends AbstractImageFinder implements GamePiece, StateMergea
         //BR// This encoding format with the "while" at the end made it challenging to work in a new parameter.
         if (token.startsWith(HAS_LAYER_MARKER)) {
           layer = Integer.valueOf(token.substring(HAS_LAYER_MARKER.length()));
+        }
+        else if (token.startsWith(HAS_EXPANDED_MARKER)) {
+          expanded = Boolean.valueOf(token.substring(HAS_EXPANDED_MARKER.length())) && GlobalOptions.getInstance().isRestoreExpandedStacks();
         }
       }
     }

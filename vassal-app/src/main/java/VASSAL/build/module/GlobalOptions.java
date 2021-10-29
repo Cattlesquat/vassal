@@ -102,6 +102,7 @@ public class GlobalOptions extends AbstractConfigurable {
   public static final String MAXIMUM_HEAP = "maximumHeap"; //$NON-NLS-1$
   public static final String DRAG_THRESHOLD = "dragThreshold"; //$NON-NLS-1$
   public static final String STACK_VIEWER_ORDER = "stackViewerOrder"; //NON-NLS
+  public static final String RESTORE_EXPANDED_STACKS = "restoreExpandedStacks"; //NON-NLS
 
   // Compatibility Tab preferences
   public static final String BUG_10295 = "bug10295"; //$NON-NLS-1$
@@ -154,6 +155,8 @@ public class GlobalOptions extends AbstractConfigurable {
   private boolean useSingleWindow;           // If true, first map should dock to the main module window (along with the Chatter)
   private boolean useClassicMoveFixedDistance = false; // Compatibility preference for move-fixed distance
   private boolean warnOldContinuation = true; // Warn when using old-style Load Continuation (compatibility)
+
+  private boolean restoreExpandedStacks = true; // Restore stack-expanded state when restoring saved game
 
   /************************************************************
    * Custom preferences
@@ -234,6 +237,12 @@ public class GlobalOptions extends AbstractConfigurable {
     final IntConfigurer pctRecenterOn = new IntConfigurer(CENTER_ON_MOVE_SENSITIVITY,
       Resources.getString("GlobalOptions.center_on_move_sensitivity"), 10); //$NON-NLS-1$
     prefs.addOption(pctRecenterOn);
+
+    // Preference to restore expanded state of stacks when loading saved game
+    final BooleanConfigurer restoreExpanded = new BooleanConfigurer(RESTORE_EXPANDED_STACKS, Resources.getString("GlobalOptions.restore_expanded_stacks"), Boolean.TRUE);
+    restoreExpanded.addPropertyChangeListener(e -> restoreExpandedStacks = (Boolean.TRUE.equals(e.getNewValue())));
+    prefs.addOption(restoreExpanded);
+    restoreExpandedStacks = !Boolean.FALSE.equals(restoreExpanded.getValue());
 
     ///////////////////////
     // COMPATIBILITY TAB //
@@ -704,6 +713,11 @@ public class GlobalOptions extends AbstractConfigurable {
     else {
       properties.put(key, value);
     }
+  }
+
+  /** @return true if expanded state of stacks should be restored when loading a saved game */
+  public boolean isRestoreExpandedStacks() {
+    return restoreExpandedStacks;
   }
 
   /** @return true if auto-reporting moves is enabled (designer-setting or user-pref, depending) */

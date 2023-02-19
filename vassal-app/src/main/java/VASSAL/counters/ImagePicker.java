@@ -179,6 +179,8 @@ public class ImagePicker extends JPanel
     else {
       setImageName(null);
     }
+    revalidate();
+    SwingUtils.repack(this);
     repaint();
   }
 }
